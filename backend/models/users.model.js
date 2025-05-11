@@ -2,42 +2,12 @@ const mongoose = require('mongoose');
 
 // Definición del esquema del usuario
 const userSchema = new mongoose.Schema({
-    nombre: {
-        type: String,
-        required: true,
-        trim: true,
-    },
-    apellido: {
-        type: String,
-        required: true,
-        trim: true,
-    },
-    email: {
-        type: String,
-        required: true,
-        unique: true,
-        trim: true,
-    },
-    password: {
-        type: String,
-        required: true,
-    },
-    telefono: {
-        type: String,
-        required: false,
-    },
-    tipo_de_documento: {
-        type: String,
-        required: false,
-    },
-    documento: {
-        type: String,
-        required: false,
-    },
-    eps: {
-        type: String,
-        required: false,
-    },
+    email: { type: String, required: true, unique: true },
+    tipo_de_documento: { type: String, required: true },
+    documento: { type: String, required: true },
+    eps: { type: String, required: true },
+    password: { type: String, required: true },
+    telefono: { type: String, required: true },
 }, {
     timestamps: true, // Agrega campos de creación y actualización automáticamente
 });

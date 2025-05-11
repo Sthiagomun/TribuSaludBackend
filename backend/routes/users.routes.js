@@ -5,10 +5,12 @@ const userCtlr = require('../controllers/users.controller');
 
 // Define las rutas
 router.get('/', userCtlr.getUsers); // Obtener todos los usuarios
-router.post('/', userCtlr.createUsers); // Crear un nuevo usuario
+router.post('/', userCtlr.createUsers); // Ruta para registrar un usuario
 router.get('/:id', userCtlr.getUnicoUsuario); // Obtener un usuario por ID
 router.put('/:id', userCtlr.updateUser); // Actualizar un usuario
 router.delete('/:id', userCtlr.deleteUser); // Eliminar un usuario
+// Ruta para el login
+router.post('/login', userCtlr.loginUser);
 
 // Exporta el router
 module.exports = router;

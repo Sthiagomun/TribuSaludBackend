@@ -9,7 +9,9 @@ const mongoose = require('mongoose');
 app.set('port', process.env.PORT || 3000);
 app.use(morgan('dev'));
 app.use(express.json());
-app.use(cors({ origin: 'http://localhost:4200' }));
+
+// Configuración de CORS
+app.use(cors()); // Permite todas las solicitudes (solo para desarrollo)
 
 // Rutas
 app.use('/api/users', require('./routes/users.routes'));

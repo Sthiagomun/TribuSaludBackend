@@ -15,12 +15,12 @@ userCtlr.getUsers = async (req, res) => {
 // Crear un nuevo usuario
 userCtlr.createUsers = async (req, res) => {
     try {
-        const newUser = new Users(req.body);
+        const newUser = new Users(req.body); // Guarda los datos directamente
         await newUser.save();
         res.json({ status: 'Usuario creado' });
     } catch (error) {
-        console.error('Error al crear usuario:', error); // Muestra el error completo en la consola
-        res.status(500).json({ message: 'Error al crear usuario', error: error.message });
+        console.error('Error al crear usuario:', error);
+        res.status(500).json({ message: 'Error al crear usuario' });
     }
 };
 
@@ -63,6 +63,30 @@ userCtlr.deleteUser = async (req, res) => {
     } catch (error) {
         console.error('Error al eliminar usuario:', error);
         res.status(500).json({ message: 'Error al eliminar usuario' });
+    }
+};
+
+// Iniciar sesión
+userCtlr.loginUser = async (req, res) => {
+    const { email, password } = req.body;
+
+    try {
+        // Busca al usuario por email
+        const user = await Users.findOne({ email });
+        if (!user) {
+            return res.status(404).json({ message: 'Usuario no encontrado' });
+        }
+
+        // Verifica la contraseña (sin encriptación)
+        if (user.password !== password) {
+            return res.status(401).json({ message: 'Credenciales incorrectas' });
+        }
+
+        // Si todo está bien, responde con éxito
+        res.json({ message: 'Login exitoso', user: { id: user._id, email: user.email } });
+    } catch (error) {
+        console.error('Error al iniciar sesión:', error);
+        res.status(500).json({ message: 'Error al iniciar sesión' });
     }
 };
 
