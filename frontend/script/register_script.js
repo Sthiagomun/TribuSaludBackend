@@ -47,7 +47,7 @@ document.getElementById('register-form').addEventListener('submit', async functi
         if (response.ok) {
             // Maneja el éxito
             alert('Registro exitoso');
-            window.location.href = '../html/login_index.html'; // Redirige al login
+            window.location.href = '../html/registerCH_index.html'; // Redirige al login
         } else {
             // Maneja errores del servidor
             alert(`Error: ${data.message}`);

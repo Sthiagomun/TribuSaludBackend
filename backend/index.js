@@ -15,6 +15,9 @@ app.use(cors()); // Permite todas las solicitudes (solo para desarrollo)
 
 // Rutas
 app.use('/api/users', require('./routes/users.routes'));
+const citasRoutes = require('./routes/citas.routes');
+app.use('/api/citas', citasRoutes);
+
 
 // Conexión a MongoDB
 const MONGODB_URI = 'mongodb://localhost:27017/users'; // Cambia esto según tu configuración
