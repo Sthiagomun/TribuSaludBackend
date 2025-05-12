@@ -8,4 +8,7 @@ router.get('/citas', citasCtrl.getCitas);
 // Ruta para crear una nueva cita
 router.post('/citas', citasCtrl.createCita);
 
+// Ruta para eliminar una cita
+router.delete('/citas/:id', citasCtrl.deleteCita);
+
 module.exports = router;

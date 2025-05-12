@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const User = require('../models/users.model'); // Importa el modelo User
+const User = require('../models/users.model');
 
 const Citas = mongoose.models.Citas || mongoose.model('Citas', new mongoose.Schema({
     usuarioId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true }, // Ref a 'User'
@@ -41,6 +41,23 @@ citasCtrl.createCita = async (req, res) => {
     } catch (error) {
         console.error('Error al crear la cita:', error);
         res.status(500).json({ message: 'Error al crear la cita', error: error.message });
+    }
+};
+
+// Método para eliminar una cita
+citasCtrl.deleteCita = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const citaEliminada = await Citas.findByIdAndDelete(id);
+        
+        if (!citaEliminada) {
+            return res.status(404).json({ message: 'Cita no encontrada' });
+        }
+        
+        res.json({ message: 'Cita cancelada exitosamente' });
+    } catch (error) {
+        console.error('Error al cancelar la cita:', error);
+        res.status(500).json({ message: 'Error al cancelar la cita', error: error.message });
     }
 };
 
