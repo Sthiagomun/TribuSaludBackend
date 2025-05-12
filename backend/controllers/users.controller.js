@@ -19,7 +19,7 @@ userCtrl.createUser = async (req, res) => {
         const { nombre, email, tipo_de_documento, documento, eps, password, telefono } = req.body;
 
         const newUser = new Users({
-            nombre, // Agregar el campo nombre
+            nombre,
             email,
             tipo_de_documento,
             documento,
@@ -53,14 +53,33 @@ userCtrl.getUnicoUsuario = async (req, res) => {
 // Actualizar un usuario
 userCtrl.updateUser = async (req, res) => {
     try {
-        const updatedUser = await Users.findByIdAndUpdate(req.params.id, req.body, { new: true });
+        const { userId, tipo_de_documento, documento, email, password } = req.body;
+
+        // Validar que el userId esté presente
+        if (!userId) {
+            return res.status(400).json({ message: 'El userId es requerido' });
+        }
+
+        // Validar que los demás campos estén presentes
+        if (!tipo_de_documento || !documento || !email || !password) {
+            return res.status(400).json({ message: 'Todos los campos son requeridos' });
+        }
+
+        // Actualizar los datos del usuario
+        const updatedUser = await Users.findByIdAndUpdate(
+            userId,
+            { tipo_de_documento, documento, email, password },
+            { new: true } // Devuelve el usuario actualizado
+        );
+
         if (!updatedUser) {
             return res.status(404).json({ message: 'Usuario no encontrado' });
         }
-        res.json({ status: 'Usuario actualizado', user: updatedUser });
+
+        res.json({ message: 'Datos actualizados correctamente', user: updatedUser });
     } catch (error) {
-        console.error('Error al actualizar usuario:', error);
-        res.status(500).json({ message: 'Error al actualizar usuario' });
+        console.error('Error al actualizar los datos del usuario:', error);
+        res.status(500).json({ message: 'Error al actualizar los datos', error: error.message });
     }
 };
 
@@ -83,18 +102,15 @@ userCtrl.loginUser = async (req, res) => {
     const { email, password } = req.body;
 
     try {
-        // Busca al usuario por email
         const user = await Users.findOne({ email });
         if (!user) {
             return res.status(404).json({ message: 'Usuario no encontrado' });
         }
 
-        // Verifica la contraseña (sin encriptación)
         if (user.password !== password) {
             return res.status(401).json({ message: 'Credenciales incorrectas' });
         }
 
-        // Si todo está bien, responde con éxito
         res.json({ message: 'Login exitoso', user: { id: user._id, email: user.email } });
     } catch (error) {
         console.error('Error al iniciar sesión:', error);
@@ -102,5 +118,4 @@ userCtrl.loginUser = async (req, res) => {
     }
 };
 
-// Exportar el controlador
 module.exports = userCtrl;

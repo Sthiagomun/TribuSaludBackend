@@ -7,7 +7,7 @@ document.getElementById('login-form').addEventListener('submit', async function 
 
     try {
         // Realiza la solicitud al backend para iniciar sesión
-        const response = await fetch('http://localhost:3000/api/login', {
+        const response = await fetch('http://localhost:3000/api/users/login', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -15,15 +15,15 @@ document.getElementById('login-form').addEventListener('submit', async function 
             body: JSON.stringify({ email, password }),
         });
 
-        const data = await response.json();
+        const result = await response.json();
 
         if (response.ok) {
-            // Guarda el usuarioId en localStorage
-            localStorage.setItem('usuarioId', data.usuarioId);
+            // Guarda el userId en localStorage
+            localStorage.setItem('userId', result.user.id);
             alert('Inicio de sesión exitoso');
             window.location.href = './dashboard_index.html'; // Redirige al formulario de solicitud de citas
         } else {
-            alert(`Error: ${data.message}`);
+            alert(`Error: ${result.message}`);
         }
     } catch (error) {
         console.error('Error al iniciar sesión:', error);
