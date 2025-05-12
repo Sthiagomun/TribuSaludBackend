@@ -11,44 +11,55 @@
     </header>
     <main>
         <div class="appointment-container">
-            <div class="appointment-type">
-                <label for="appointment-type">Tipo de Cita</label>
-                <select id="appointment-type">
-                    <option value="" disabled selected>Selecciona un tipo de cita</option>
-                    <option value="psychology">Acompañamiento Psicológico Virtual</option>
-                    <option value="nutrition">Asesoría Nutricional en Línea</option>
-                    <option value="lab">Autorizaciones Virtuales para Exámenes de Laboratorio</option>
-                    <option value="chat">Chat Médico 24/7</option>
-                    <option value="optometry">Cita con Optometría</option>
-                    <option value="general">Cita General</option>
-                    <option value="specialist">Cita con Especialista</option>
-                </select><br><br>
-            </div>
-            <div class="appointment-date">
-                <label for="appointment-date">Fecha</label>
-                <input type="date" id="appointment-date"><br><br>
-            </div>
-            <div class="appointment-time">
-                <label for="appointment-time">Hora</label>
-                <select id="appointment-time">
-                    <option value="" disabled selected>Selecciona una hora</option>
-                    <option value="8am">8:00 AM</option>
-                    <option value="9am">9:00 AM</option>
-                    <option value="10am">10:00 AM</option>
-                    <option value="11am">11:00 AM</option>
-                    <option value="1pm">1:00 PM</option>
-                    <option value="2pm">2:00 PM</option>
-                    <option value="3pm">3:00 PM</option>
-                    <option value="4pm">4:00 PM</option>
-                </select><br><br>
-            </div>
-            <div class="appointment-location">
-                <label for="appointment-location">Sede</label>
-                <button id="appointment-location">IPS TribuSalud</button><br><br>
-            </div>
-            <div class="button-container">
-                <button id="continue-button">Continuar</button>
-            </div>
+            <form id="register-form">
+                <div class="appointment-type">
+                    <label for="appointment-type">Tipo de Cita</label>
+                    <select id="appointment-type">
+                        <option value="" disabled selected>Selecciona un tipo de cita</option>
+                        <option value="Psicologia">Acompañamiento Psicológico Virtual</option>
+                        <option value="Nitricionista">Asesoría Nutricional en Línea</option>
+                        <option value="Examenes">Autorizaciones Virtuales para Exámenes de Laboratorio</option>
+                        <option value="Chat Medico">Chat Médico 24/7</option>
+                        <option value="Optometria">Cita con Optometría</option>
+                        <option value="Gnereal">Cita General</option>
+                        <option value="Especialista">Cita con Especialista</option>
+                    </select><br><br>
+                </div>
+                <div class="appointment-date">
+                    <label for="appointment-date">Fecha</label>
+                    <input type="date" id="appointment-date"><br><br>
+                </div>
+                <div class="appointment-time">
+                    <label for="appointment-time">Hora</label>
+                    <select id="appointment-time">
+                        <option value="" disabled selected>Selecciona una hora</option>
+                        <option value="8am">8:00 AM</option>
+                        <option value="9am">9:00 AM</option>
+                        <option value="10am">10:00 AM</option>
+                        <option value="11am">11:00 AM</option>
+                        <option value="1pm">1:00 PM</option>
+                        <option value="2pm">2:00 PM</option>
+                        <option value="3pm">3:00 PM</option>
+                        <option value="4pm">4:00 PM</option>
+                    </select><br><br>
+                </div>
+                <div class="appointment-location">
+                    <label for="appointment-location">Sede</label>
+                    <button id="appointment-location">IPS TribuSalud</button><br><br>
+                </div>
+                <div class="appointment-doctor">
+                    <label for="doctor">Doctor: </label>
+                    <select id="doctor">
+                        <option value="" disabled selected>Selecciona un doctor</option>
+                        <option value="Dr. Juan Pérez">Dr. Juan Pérez</option>
+                        <option value="Dra. María López">Dra. María López</option>
+                        <option value="Dr. Carlos García">Dr. Carlos García</option>
+                    </select>
+                </div><br><br>
+                <div class="button-container">
+                    <button id="continue-button" type="submit">Continuar</button>
+                </div>
+            </form>
         </div>
     </main>
     <script src="../script/solicitar_script.js"></script>

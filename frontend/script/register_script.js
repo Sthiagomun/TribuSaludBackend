@@ -1,7 +1,8 @@
 document.getElementById('register-form').addEventListener('submit', async function (event) {
-    event.preventDefault(); // Evita que la página se recargue
+    event.preventDefault(); // Evita que el formulario recargue la página
 
-    // Obtén los valores de los campos del formulario
+    // Captura los valores del formulario
+    const nombre = document.getElementById('nombre').value;
     const email = document.getElementById('email').value;
     const tipo_de_documento = document.getElementById('tipo_de_documento').value;
     const documento = document.getElementById('documento').value;
@@ -10,29 +11,21 @@ document.getElementById('register-form').addEventListener('submit', async functi
     const confirmPassword = document.getElementById('confirm-password').value;
     const telefono = document.getElementById('telefono').value;
 
-    // Verifica que las contraseñas coincidan
+    // Validar que las contraseñas coincidan
     if (password !== confirmPassword) {
-        alert('Las contraseñas no coinciden');
+        alert('Las contraseñas no coinciden.');
         return;
     }
 
-    console.log({
-        email,
-        tipo_de_documento,
-        documento,
-        eps,
-        password,
-        telefono,
-    });
-
     try {
         // Envía los datos al servidor
-        const response = await fetch('http://localhost:3000/api/users', { // Cambia la URL si es necesario
+        const response = await fetch('http://localhost:3000/api/users', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({
+                nombre, // Agregar el campo nombre
                 email,
                 tipo_de_documento,
                 documento,
@@ -45,16 +38,13 @@ document.getElementById('register-form').addEventListener('submit', async functi
         const data = await response.json();
 
         if (response.ok) {
-            // Maneja el éxito
-            alert('Registro exitoso');
-            window.location.href = '../html/registerCH_index.html'; // Redirige al login
+            alert('Usuario registrado exitosamente');
+            window.location.href = './login_index.html'; // Redirige al login
         } else {
-            // Maneja errores del servidor
             alert(`Error: ${data.message}`);
         }
     } catch (error) {
-        // Maneja errores de red u otros
         console.error('Error al registrar usuario:', error);
-        alert('Error al registrar usuario. Inténtalo de nuevo más tarde.');
+        alert('Ocurrió un error al intentar registrar el usuario.');
     }
 });

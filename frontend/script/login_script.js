@@ -1,13 +1,13 @@
 document.getElementById('login-form').addEventListener('submit', async function (event) {
     event.preventDefault(); // Evita que la página se recargue
 
-    // Obtén los valores de los campos del formulario
+    // Captura los valores del formulario
     const email = document.getElementById('email').value;
     const password = document.getElementById('password').value;
 
     try {
-        // Envía los datos al servidor (ajusta la URL según tu backend)
-        const response = await fetch('http://localhost:3000/api/users/login', { // Cambia la URL aquí
+        // Realiza la solicitud al backend para iniciar sesión
+        const response = await fetch('http://localhost:3000/api/login', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -18,11 +18,11 @@ document.getElementById('login-form').addEventListener('submit', async function 
         const data = await response.json();
 
         if (response.ok) {
-            // Maneja el éxito (por ejemplo, redirige al dashboard)
-            alert('Login exitoso');
-            window.location.href = './dashboard_index.html';
+            // Guarda el usuarioId en localStorage
+            localStorage.setItem('usuarioId', data.usuarioId);
+            alert('Inicio de sesión exitoso');
+            window.location.href = './dashboard_index.html'; // Redirige al formulario de solicitud de citas
         } else {
-            // Maneja errores (por ejemplo, credenciales incorrectas)
             alert(`Error: ${data.message}`);
         }
     } catch (error) {
@@ -30,3 +30,5 @@ document.getElementById('login-form').addEventListener('submit', async function 
         alert('Ocurrió un error al intentar iniciar sesión.');
     }
 });
+
+const usuarioId = localStorage.getItem('usuarioId'); // <-- minúscula

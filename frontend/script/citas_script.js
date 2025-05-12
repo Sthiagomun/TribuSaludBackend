@@ -1,23 +1,30 @@
+document.getElementById('return').addEventListener('click', () => {
+    window.location.href = './dashboard_index.html';
+});
+
 document.addEventListener('DOMContentLoaded', async () => {
     const citasContainer = document.getElementById('citas-container');
+    const usuarioId = localStorage.getItem('usuarioId');
+    if (!usuarioId) {
+        citasContainer.innerHTML = '<p>No se encontró el usuario. Inicia sesión de nuevo.</p>';
+        return;
+    }
 
     try {
-        // Realiza una solicitud al backend para obtener las citas
-        const response = await fetch('http://localhost:3000/api/citas');
+        // Solicita solo las citas del usuario actual
+        const response = await fetch(`http://localhost:3000/api/citas?usuarioId=${usuarioId}`);
         const citas = await response.json();
 
-        // Verifica si hay citas
         if (citas.length === 0) {
             citasContainer.innerHTML = '<p>No tienes citas registradas.</p>';
             return;
         }
 
-        // Genera el HTML para mostrar las citas
         citas.forEach(cita => {
             const citaElement = document.createElement('div');
             citaElement.classList.add('cita');
             citaElement.innerHTML = `
-                <p><strong>Paciente:</strong> ${cita.paciente}</p>
+                <p><strong>Paciente:</strong> ${cita.usuarioId?.nombre || cita.usuarioId || 'Sin nombre'}</p>
                 <p><strong>Fecha:</strong> ${new Date(cita.fecha).toLocaleDateString()}</p>
                 <p><strong>Hora:</strong> ${cita.hora}</p>
                 <p><strong>Doctor:</strong> ${cita.doctor}</p>

@@ -1,27 +1,46 @@
-const Citas = require('../models/citas.model');
+const mongoose = require('mongoose');
+const User = require('../models/users.model'); // Importa el modelo User
+
+const Citas = mongoose.models.Citas || mongoose.model('Citas', new mongoose.Schema({
+    usuarioId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true }, // Ref a 'User'
+    fecha: { type: Date, required: true },
+    hora: { type: String, required: true },
+    doctor: { type: String, required: true },
+    especialidad: { type: String, required: true },
+}));
 
 const citasCtrl = {};
 
-// Obtener todas las citas
+// Método para obtener citas
 citasCtrl.getCitas = async (req, res) => {
     try {
-        const citas = await Citas.find(); // Obtiene todas las citas
+        const { usuarioId } = req.query;
+        let filter = {};
+
+        if (usuarioId) {
+            if (!mongoose.Types.ObjectId.isValid(usuarioId)) {
+                return res.status(400).json({ message: 'El usuarioId no es válido' });
+            }
+            filter.usuarioId = usuarioId;
+        }
+
+        const citas = await Citas.find(filter).populate('usuarioId', 'nombre email tipo_de_documento documento eps telefono');
         res.json(citas);
     } catch (error) {
         console.error('Error al obtener citas:', error);
-        res.status(500).json({ message: 'Error al obtener citas' });
+        res.status(500).json({ message: 'Error al obtener citas', error: error.message });
     }
 };
 
-// Crear una nueva cita
+// Método para crear una nueva cita
 citasCtrl.createCita = async (req, res) => {
     try {
-        const nuevaCita = new Citas(req.body); // Crea una nueva cita con los datos enviados
-        await nuevaCita.save();
-        res.status(201).json({ message: 'Cita creada exitosamente' });
+        const nuevaCita = new Citas(req.body);
+        const citaGuardada = await nuevaCita.save();
+        res.status(201).json(citaGuardada);
     } catch (error) {
-        console.error('Error al crear cita:', error);
-        res.status(500).json({ message: 'Error al crear cita' });
+        console.error('Error al crear la cita:', error);
+        res.status(500).json({ message: 'Error al crear la cita', error: error.message });
     }
 };
 

@@ -1,8 +1,9 @@
 const Users = require('../models/users.model');
-const userCtlr = {};
+
+const userCtrl = {};
 
 // Obtener todos los usuarios
-userCtlr.getUsers = async (req, res) => {
+userCtrl.getUsers = async (req, res) => {
     try {
         const users = await Users.find();
         res.json(users);
@@ -13,19 +14,30 @@ userCtlr.getUsers = async (req, res) => {
 };
 
 // Crear un nuevo usuario
-userCtlr.createUsers = async (req, res) => {
+userCtrl.createUser = async (req, res) => {
     try {
-        const newUser = new Users(req.body); // Guarda los datos directamente
+        const { nombre, email, tipo_de_documento, documento, eps, password, telefono } = req.body;
+
+        const newUser = new Users({
+            nombre, // Agregar el campo nombre
+            email,
+            tipo_de_documento,
+            documento,
+            eps,
+            password,
+            telefono,
+        });
+
         await newUser.save();
-        res.json({ status: 'Usuario creado' });
+        res.status(201).json({ message: 'Usuario registrado exitosamente' });
     } catch (error) {
-        console.error('Error al crear usuario:', error);
-        res.status(500).json({ message: 'Error al crear usuario' });
+        console.error('Error al registrar usuario:', error);
+        res.status(500).json({ message: 'Error al registrar usuario' });
     }
 };
 
 // Obtener un usuario por ID
-userCtlr.getUnicoUsuario = async (req, res) => {
+userCtrl.getUnicoUsuario = async (req, res) => {
     try {
         const user = await Users.findById(req.params.id);
         if (!user) {
@@ -39,7 +51,7 @@ userCtlr.getUnicoUsuario = async (req, res) => {
 };
 
 // Actualizar un usuario
-userCtlr.updateUser = async (req, res) => {
+userCtrl.updateUser = async (req, res) => {
     try {
         const updatedUser = await Users.findByIdAndUpdate(req.params.id, req.body, { new: true });
         if (!updatedUser) {
@@ -53,7 +65,7 @@ userCtlr.updateUser = async (req, res) => {
 };
 
 // Eliminar un usuario
-userCtlr.deleteUser = async (req, res) => {
+userCtrl.deleteUser = async (req, res) => {
     try {
         const deletedUser = await Users.findByIdAndDelete(req.params.id);
         if (!deletedUser) {
@@ -67,7 +79,7 @@ userCtlr.deleteUser = async (req, res) => {
 };
 
 // Iniciar sesión
-userCtlr.loginUser = async (req, res) => {
+userCtrl.loginUser = async (req, res) => {
     const { email, password } = req.body;
 
     try {
@@ -91,4 +103,4 @@ userCtlr.loginUser = async (req, res) => {
 };
 
 // Exportar el controlador
-module.exports = userCtlr;
+module.exports = userCtrl;

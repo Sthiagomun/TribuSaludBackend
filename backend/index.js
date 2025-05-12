@@ -1,9 +1,10 @@
-//Requerimientos de librerias
-const express = require('express');
+// Requerimientos de librerías
+const express = require('express'); // Declaración única de express
 const morgan = require('morgan');
 const cors = require('cors');
 const app = express();
 const mongoose = require('mongoose');
+const citasRoutes = require('./routes/citas.routes');
 
 // Configuración del servidor
 app.set('port', process.env.PORT || 3000);
@@ -11,13 +12,12 @@ app.use(morgan('dev'));
 app.use(express.json());
 
 // Configuración de CORS
-app.use(cors()); // Permite todas las solicitudes (solo para desarrollo)
+app.use(cors());
 
 // Rutas
 app.use('/api/users', require('./routes/users.routes'));
-const citasRoutes = require('./routes/citas.routes');
-app.use('/api/citas', citasRoutes);
-
+app.use('/api', citasRoutes); // Prefijo '/api' para las rutas
+app.use('/api', require('./routes/auth.routes'));
 
 // Conexión a MongoDB
 const MONGODB_URI = 'mongodb://localhost:27017/users'; // Cambia esto según tu configuración
