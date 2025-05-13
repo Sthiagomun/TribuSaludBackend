@@ -1,4 +1,6 @@
 const Users = require('../models/users.model');
+const mongoose = require('mongoose');
+const ObjectId = mongoose.Types.ObjectId;
 
 const userCtrl = {};
 
