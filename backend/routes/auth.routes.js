@@ -11,7 +11,7 @@ router.post('/login', async (req, res) => {
         if (!user) {
             return res.status(401).json({ message: 'Usuario no encontrado' });
         }
-        // Aquí deberías validar la contraseña, por ejemplo con bcrypt
+        // Aquí deberías validar la contraseña
         if (user.password !== password) {
             return res.status(401).json({ message: 'Contraseña incorrecta' });
         }
